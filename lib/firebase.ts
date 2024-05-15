@@ -3,13 +3,13 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_APIKEY,
-  authDomain: process.env.FIREBASE_AUTHDOMAIN,
-  projectId: process.env.FIREBASE_PROJECTID,
-  storageBucket: process.env.FIREBASE_STORAGEBUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGINGSENDERID,
-  appId: process.env.FIREBASE_APPID,
-  measurementId: process.env.FIREBASE_MEASUREMENTID
+  apiKey: "AIzaSyAjqP55WAw6YImFe1HAHLn5qHWw5hcCN2w",
+  authDomain: "sleek-d3f04.firebaseapp.com",
+  projectId: "sleek-d3f04",
+  storageBucket: "sleek-d3f04.appspot.com",
+  messagingSenderId: "403385064329",
+  appId: "1:403385064329:web:43b65f9984657817ab1f58",
+  measurementId: "G-61DD53P7DH"
 };
 
 
