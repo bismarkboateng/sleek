@@ -14,3 +14,16 @@ export const initialValues = {
   accountType: "",
   password: "",
 }
+
+export const initialSignInFormValues = {
+  email: "",
+  password: ""
+}
+
+export const handleError = (error: any) => {
+  if (typeof error === "string") {
+    throw new Error(error)
+  } else {
+    throw new Error(JSON.parse(JSON.stringify(error)))
+  }
+}

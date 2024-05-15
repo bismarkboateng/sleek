@@ -11,18 +11,30 @@ import { useForm } from "react-hook-form"
 import { signUpFormSchema } from "@/lib/validator"
 import { initialValues } from "@/lib/utils"
 import Dropdown from "@/components/shared/Dropdown"
+import Loader from "@/components/shared/Loader"
+import { useAuthStore } from "@/store/Auth"
+import { useRouter } from "next/navigation"
+import { IoCheckmarkCircleSharp } from "react-icons/io5";
+
 
 
 
 export default function SignUpPage() {
+  const router = useRouter()
+  const signUp = useAuthStore(state => state.signUp)
+  const signUpState = useAuthStore(state => state.signUpState)
+  const isPasswordDoNotMatch = useAuthStore(state => state.isPasswordDoNotMatch)
+  
   const form = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: initialValues,
   })
- 
 
   function onSubmit(values: z.infer<typeof signUpFormSchema>) {
-    console.log(values)
+    signUp(values)
+    setTimeout(() => {
+      router.push("/sign-in")
+    }, 300)
   }
 
   return (
@@ -106,7 +118,7 @@ export default function SignUpPage() {
           </div>
 
           {/* Country and account type */}
-          <div className="flex flex-col md:flex-row md:gap-2">
+          {/* <div className="flex flex-col md:flex-row md:gap-2">
           <FormField
            control={form.control}
            name="country"
@@ -139,7 +151,7 @@ export default function SignUpPage() {
               <FormMessage />
             </FormItem>
            )}/>
-          </div>
+          </div> */}
 
           {/* password and confirm password */}
           <div className="flex flex-col md:flex-row md:gap-2">
@@ -174,11 +186,25 @@ export default function SignUpPage() {
             </FormItem>
            )}/>
           </div>
+         {isPasswordDoNotMatch
+          ? <p className="text-red-400">Passwords do not match.</p>
+          : null}
          <Button
            type="submit"
-           className="w-full bg-[#007AFF] text-white active:bg-[#007AFF]"
+           className={`
+           ${signUpState === "done" ? "bg-green-400" : null }
+           w-full bg-[#007AFF] text-white active:bg-[#007AFF]`}
          >
-            Submit
+          {
+            signUpState === "loading"
+            ? <Loader loadingState={true} />
+            : signUpState === "done"
+            ? <IoCheckmarkCircleSharp
+               className="text-green-600"
+               fontSize={23}
+              />
+            : "Submit"
+          }
           </Button>
         </form>
        </Form>
