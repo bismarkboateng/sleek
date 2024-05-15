@@ -35,16 +35,16 @@ export default function SignInPage() {
     signIn(values)
     setTimeout(() => {
       router.push("/dashboard")
-    }, 300)
+    }, 500)
   }
 
   const handleSignInWithGoogle = () => {
     signInWithRedirect()
 
-    router.push("/dashboard")
     if (isGoogleSigIn === "done") {
       setTimeout(() => {
-      }, 300)
+        router.push("/dashboard")
+      }, 500)
     }
   }
 

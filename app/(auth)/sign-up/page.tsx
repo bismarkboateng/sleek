@@ -34,7 +34,7 @@ export default function SignUpPage() {
     signUp(values)
     setTimeout(() => {
       router.push("/sign-in")
-    }, 300)
+    }, 500)
   }
 
   return (
@@ -46,7 +46,7 @@ export default function SignUpPage() {
         </p>
       </section>
 
-      <section className="border w-full min-h-[70vh] mt-5 rounded-md p-3">
+      <section className="border w-full h-fit mt-5 rounded-md p-3">
        <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           {/* first name and last name */}

@@ -38,8 +38,9 @@ export default function DashboardPage() {
   ];
   
   return (
-    <section className="mt-5">
-     <Card className="p-3">
+    <section className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3
+    xl:grid-cols-4">
+     <Card className="p-3 shadow-md">
        <h2 className="text-sm text-[#818891] font-medium mb-2 ml-5">
         Today&apos;s Revenue
        </h2>
@@ -47,7 +48,64 @@ export default function DashboardPage() {
         $8,521
        </h1>
       <CardContent>
-       <AreaChart h={100} data={data}
+       <AreaChart h={50} data={data}
+        dataKey="date" curveType="natural"
+        withGradient
+        gridAxis="none"
+        withDots={false}
+        withYAxis={false}
+        withXAxis={false}
+        series={[{ name: 'Apples', color: 'green' }]}
+       />
+      </CardContent>
+     </Card>
+     <Card className="p-3 shadow-md">
+       <h2 className="text-sm text-[#818891] font-medium mb-2 ml-5">
+        Today&apos;s Revenue
+       </h2>
+       <h1 className="text-xl text-[#5F6979] font-bold ml-5">
+        $8,521
+       </h1>
+      <CardContent>
+       <AreaChart h={50} data={data}
+        dataKey="date" curveType="natural"
+        withGradient
+        gridAxis="none"
+        withDots={false}
+        withYAxis={false}
+        withXAxis={false}
+        series={[{ name: 'Apples', color: 'green' }]}
+       />
+      </CardContent>
+     </Card>
+     <Card className="p-3 shadow-md">
+       <h2 className="text-sm text-[#818891] font-medium mb-2 ml-5">
+        Today&apos;s Revenue
+       </h2>
+       <h1 className="text-xl text-[#5F6979] font-bold ml-5">
+        $8,521
+       </h1>
+      <CardContent>
+       <AreaChart h={50} data={data}
+        dataKey="date" curveType="natural"
+        withGradient
+        gridAxis="none"
+        withDots={false}
+        withYAxis={false}
+        withXAxis={false}
+        series={[{ name: 'Apples', color: 'green' }]}
+       />
+      </CardContent>
+     </Card>
+     <Card className="p-3 shadow-md">
+       <h2 className="text-sm text-[#818891] font-medium mb-2 ml-5">
+        Today&apos;s Revenue
+       </h2>
+       <h1 className="text-xl text-[#5F6979] font-bold ml-5">
+        $8,521
+       </h1>
+      <CardContent>
+       <AreaChart h={50} data={data}
         dataKey="date" curveType="natural"
         withGradient
         gridAxis="none"

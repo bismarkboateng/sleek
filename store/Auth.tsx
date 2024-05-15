@@ -3,10 +3,11 @@ import { auth } from "@/lib/firebase"
 import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword, GoogleAuthProvider,
-  signInWithRedirect, signInWithPopup
+  signInWithPopup, signOut
 } from "firebase/auth"
 import { handleError } from "@/lib/utils"
 import { createCustomer } from "@/actions/customer.actions"
+import { redirect } from "next/navigation"
 
 
 export const useAuthStore = create<AuthStore>()((set) => ({
@@ -52,6 +53,7 @@ export const useAuthStore = create<AuthStore>()((set) => ({
       set(state => ({...state, loginState: "done"}))
       const user = userCredential.user;
       set(state => ({...state, isLoggedIn: true, userId: user.uid}))
+      // add to local storage
     })
     .catch((error) => {
       const errorMessage = error.message;
@@ -68,6 +70,7 @@ export const useAuthStore = create<AuthStore>()((set) => ({
         set(state => ({...state, isGoogleSigIn: "done" }))
         const credential = GoogleAuthProvider.credentialFromResult(result);
         // createCustomer(customer) server action
+        // add to local storage
         set(state => ({...state, isLoggedIn: true, userId: credential?.idToken}))
       }).catch((error) => {
         const errorMessage = error.message;
@@ -75,5 +78,12 @@ export const useAuthStore = create<AuthStore>()((set) => ({
       });
   },
 
-  logOut: () => {},
+  logOut: () => {
+    signOut(auth).then(() => {
+      // remove uid from storage
+      localStorage.clear()
+    }).catch((error) => {
+      handleError(error)
+    });
+  },
 }))
