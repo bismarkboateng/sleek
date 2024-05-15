@@ -9,17 +9,19 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { PiSignOut } from "react-icons/pi";
 import { useAuthStore } from "@/store/Auth";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function UserCard() {
+  const [userObj, setUserObj] = useState<null | CreateCustomerParams>()
   const logOut = useAuthStore(state => state.logOut)
   const userId = useAuthStore(state => state.userId)
   const router = useRouter()
 
+
   useEffect(() => {
-    console.log(userId)
-    // use this id to get information about the customer
+    const user = JSON.parse(localStorage.getItem("user")!)
+    setUserObj(user)
   }, [userId])
 
   const handleLogOut = () => {
@@ -39,7 +41,7 @@ export default function UserCard() {
        <DropdownMenu>
         <DropdownMenuTrigger className="outline-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0">
           <div className="flex items-center gap-2">
-           <p className="text-[#818891] font-medium">Ismali Hossain</p>
+           <p className="text-[#818891] font-medium">{userObj?.firstName}</p>
            <RiArrowDropDownLine fontSize={22} className="text-[#818891]" />
           </div>
         </DropdownMenuTrigger>

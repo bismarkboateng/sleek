@@ -2,9 +2,11 @@
 
 import { handleError } from "@/lib/utils"
 
+const endpoint = "http://localhost:3001/api/customers"
+
 export const createCustomer = async (customer: CreateCustomerParams) => {
     try {
-        const response = await fetch("/api/customer", {
+        const response = await fetch(endpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -15,7 +17,8 @@ export const createCustomer = async (customer: CreateCustomerParams) => {
         if (!response.ok) {
             handleError(response.statusText)
         }
-        return response
+        console.log(response)
+        return JSON.parse(JSON.stringify(response))
     } catch (error) {
         handleError(error)
     }

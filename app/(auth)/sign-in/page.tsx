@@ -14,7 +14,8 @@ import Loader from "@/components/shared/Loader"
 import { useAuthStore } from "@/store/Auth"
 import { useRouter } from "next/navigation"
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
-import { FcGoogle } from "react-icons/fc";
+import { FaGoogle } from "react-icons/fa";
+import { FaFacebookF } from "react-icons/fa";
 import Link from "next/link"
 
 
@@ -39,17 +40,23 @@ export default function SignInPage() {
   }
 
   const handleSignInWithGoogle = () => {
-    signInWithRedirect()
+    // signInWithRedirect()
 
-    if (isGoogleSigIn === "done") {
-      setTimeout(() => {
-        router.push("/dashboard")
-      }, 500)
-    }
+    // router.push("/dashboard")
+    // if (isGoogleSigIn === "done") {
+    //   setTimeout(() => {
+    //   }, 500)
+    // }
+  }
+
+  const handleSignInWithFacebook = () => {
+
   }
 
   return (
-    <section className="w-[90%] lg:w-[70%] 2xl:w-[50%] mx-auto mt-10">
+    <section className="w-[90%] lg:w-[70%] 2xl:w-[50%] mx-auto mt-5">
+      <h1 className="text-green-400 text-xl text-center mb-5
+       font-bold">Sleek</h1>
       <section className="text-[#5F6979] mb-2">
         <h1 className="font-bold md:text-lg 2xl:text-xl">Sign In</h1>
         <p className="text-xs line-clamp-1 font-medium md:text-sm
@@ -58,16 +65,28 @@ export default function SignInPage() {
         </p>
       </section>
 
-      <section className="mt-5">
+      {/* Social Login */}
+      <section className="mt-5 flex flex-col md:flex-row gap-2">
         <div onClick={handleSignInWithGoogle}
-         className="bg-[#ffffff] active:bg-[#ffffff] focus:bg-[#ffff]
-         py-1 w-[50%] border rounded-md flex items-center justify-center"
+         className="bg-[#007AFF] active:bg-[#007AFF] focus:bg-[#007AFF]
+         py-3 w-fuill border rounded-md flex items-center justify-center"
         >
-          <FcGoogle fontSize={20} className="w-5 h-5 block"/>
+          <FaGoogle fontSize={20} className="w-5 h-5 block text-white mr-5"/>
+          <span className="text-white text-sm font-medium">Sign in with Google</span>
         </div>
-        <p className="text-[#818891] text-xs mt-5">or sign in with</p>
-      </section>
 
+        <div onClick={handleSignInWithFacebook}
+         className="bg-blue-900 active:bg-blue-900 focus:bg-blue-900
+         py-3 w-full border rounded-md flex items-center justify-center"
+        >
+          <FaFacebookF fontSize={20} className="w-5 h-5 block text-white mr-5"/>
+          <span className="text-white text-sm font-medium">Sign in with Facebook</span>
+        </div>
+      </section>
+      {/* end social login */}
+
+      <p className="text-[#818891] text-xs mt-5 text-center">or sign in with</p>
+      
       <section className="border w-full h-fit mt-5 rounded-md p-3">
        <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -104,7 +123,14 @@ export default function SignInPage() {
             </FormItem>
            )}/>
           </div>
-          <div className="flex flex-row justify-end">
+          <div className="flex flex-row justify-between">
+           <Link
+            href="/sign-up"
+            className="text-xs font-medium text-[#5F6979]"
+           >
+            Don&apos;t have an Acccount?{" "}
+            <span className="text-[#007AFF] underline">Create one</span>
+           </Link>
            <Link
             href="/forgot-password"
             className="text-[#007AFF] text-xs font-medium"
@@ -127,7 +153,7 @@ export default function SignInPage() {
                className="text-green-600"
                fontSize={23}
               />
-            : "Submit"
+            : "Sign In"
           }
           </Button>
         </form>

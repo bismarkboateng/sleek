@@ -15,6 +15,7 @@ import Loader from "@/components/shared/Loader"
 import { useAuthStore } from "@/store/Auth"
 import { useRouter } from "next/navigation"
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
+import Link from "next/link"
 
 
 
@@ -38,7 +39,9 @@ export default function SignUpPage() {
   }
 
   return (
-    <section className="w-[90%] mx-auto mt-10">
+    <section className="w-[90%] mx-auto mt-5">
+      <h1 className="text-green-400 text-xl text-center mb-5
+      font-bold">Sleek</h1>
       <section className="text-[#5F6979] mb-2">
         <h1 className="font-bold">Create an Account</h1>
         <p className="text-xs line-clamp-1 font-medium">
@@ -117,42 +120,6 @@ export default function SignUpPage() {
            )}/>
           </div>
 
-          {/* Country and account type */}
-          {/* <div className="flex flex-col md:flex-row md:gap-2">
-          <FormField
-           control={form.control}
-           name="country"
-           render={({ field }) => (
-            <FormItem className="mb-2 md:mb-0 md:w-[50%]">
-              <FormLabel className="text-[#5F6979]">Country</FormLabel>
-              <FormControl>
-                <Dropdown
-                 type="country"
-                 onSelectChange={field.onChange}
-                 value={field.value}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-           )}/>
-          <FormField
-           control={form.control}
-           name="accountType"
-           render={({ field }) => (
-            <FormItem className="md:w-[50%]">
-              <FormLabel className="text-[#5F6979]">Account Type</FormLabel>
-              <FormControl>
-                <Dropdown
-                 type="accountType"
-                 onSelectChange={field.onChange}
-                 value={field.value}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-           )}/>
-          </div> */}
-
           {/* password and confirm password */}
           <div className="flex flex-col md:flex-row md:gap-2">
           <FormField
@@ -189,11 +156,20 @@ export default function SignUpPage() {
          {isPasswordDoNotMatch
           ? <p className="text-red-400">Passwords do not match.</p>
           : null}
+          <div className="">
+           <Link
+            href="/sign-in"
+            className="text-xs font-medium text-[#5F6979]"
+           >
+            Already have an account?{" "}
+            <span className="text-[#007AFF] underline">Sign in</span>
+           </Link>
+          </div>
          <Button
            type="submit"
            className={`
            ${signUpState === "done" ? "bg-green-400" : null }
-           w-full bg-[#007AFF] text-white active:bg-[#007AFF]`}
+           w-full md:w-[40%] bg-[#007AFF] text-white active:bg-[#007AFF]`}
          >
           {
             signUpState === "loading"
