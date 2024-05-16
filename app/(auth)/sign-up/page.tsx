@@ -179,7 +179,7 @@ export default function SignUpPage() {
                className="text-green-600"
                fontSize={23}
               />
-            : "Submit"
+            : "Sign Up"
           }
           </Button>
         </form>

@@ -1,122 +1,16 @@
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card"
-import { AreaChart } from "@mantine/charts"
+import CardComponent from "@/components/shared/CardComponent";
+import RevenueCard from "@/components/shared/RevenueCard";
+import TopProducts from "@/components/shared/TopProducts";
+
 export default function DashboardPage() {
-  const data = [
-    {
-      date: 'Mar 22',
-      Apples: 2890,
-      Oranges: 2338,
-      Tomatoes: 2452,
-    },
-    {
-      date: 'Mar 23',
-      Apples: 2756,
-      Oranges: 2103,
-      Tomatoes: 2402,
-    },
-    {
-      date: 'Mar 24',
-      Apples: 3322,
-      Oranges: 986,
-      Tomatoes: 1821,
-    },
-    {
-      date: 'Mar 25',
-      Apples: 3470,
-      Oranges: 2108,
-      Tomatoes: 2809,
-    },
-    {
-      date: 'Mar 26',
-      Apples: 3129,
-      Oranges: 1726,
-      Tomatoes: 2290,
-    },
-  ];
   
   return (
-    <section className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3
-    xl:grid-cols-4">
-     <Card className="p-3 shadow-md">
-       <h2 className="text-sm text-[#818891] font-medium mb-2 ml-5">
-        Today&apos;s Revenue
-       </h2>
-       <h1 className="text-xl text-[#5F6979] font-bold ml-5">
-        $8,521
-       </h1>
-      <CardContent>
-       <AreaChart h={50} data={data}
-        dataKey="date" curveType="natural"
-        withGradient
-        gridAxis="none"
-        withDots={false}
-        withYAxis={false}
-        withXAxis={false}
-        series={[{ name: 'Apples', color: 'green' }]}
-       />
-      </CardContent>
-     </Card>
-     <Card className="p-3 shadow-md">
-       <h2 className="text-sm text-[#818891] font-medium mb-2 ml-5">
-        Today&apos;s Revenue
-       </h2>
-       <h1 className="text-xl text-[#5F6979] font-bold ml-5">
-        $8,521
-       </h1>
-      <CardContent>
-       <AreaChart h={50} data={data}
-        dataKey="date" curveType="natural"
-        withGradient
-        gridAxis="none"
-        withDots={false}
-        withYAxis={false}
-        withXAxis={false}
-        series={[{ name: 'Apples', color: 'green' }]}
-       />
-      </CardContent>
-     </Card>
-     <Card className="p-3 shadow-md">
-       <h2 className="text-sm text-[#818891] font-medium mb-2 ml-5">
-        Today&apos;s Revenue
-       </h2>
-       <h1 className="text-xl text-[#5F6979] font-bold ml-5">
-        $8,521
-       </h1>
-      <CardContent>
-       <AreaChart h={50} data={data}
-        dataKey="date" curveType="natural"
-        withGradient
-        gridAxis="none"
-        withDots={false}
-        withYAxis={false}
-        withXAxis={false}
-        series={[{ name: 'Apples', color: 'green' }]}
-       />
-      </CardContent>
-     </Card>
-     <Card className="p-3 shadow-md">
-       <h2 className="text-sm text-[#818891] font-medium mb-2 ml-5">
-        Today&apos;s Revenue
-       </h2>
-       <h1 className="text-xl text-[#5F6979] font-bold ml-5">
-        $8,521
-       </h1>
-      <CardContent>
-       <AreaChart h={50} data={data}
-        dataKey="date" curveType="natural"
-        withGradient
-        gridAxis="none"
-        withDots={false}
-        withYAxis={false}
-        withXAxis={false}
-        series={[{ name: 'Apples', color: 'green' }]}
-       />
-      </CardContent>
-     </Card>
-
+    <section>
+      <CardComponent />
+      <section className="flex flex-col gap-2 lg:flex-row lg:gap-4">
+        <RevenueCard />
+        <TopProducts />
+      </section>
     </section>
   )
 }

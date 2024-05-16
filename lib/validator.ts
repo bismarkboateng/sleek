@@ -22,9 +22,7 @@ export const signUpFormSchema = z.object({
     }).max(32, {
         message: "Password must be less than 32 characters long"
     }).regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
-    .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
-    .regex(/[0-9]/, { message: "Password must contain at least one number" })
-    .regex(/[@$!%*?&#]/, { message: "Password must contain at least one special character (@, $, !, %, *, ?, &, #)" }),
+    .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" }),
     
     confirmPassword: z.string().min(8,{
         message: "Password must be at least 8 characters long"
@@ -32,8 +30,6 @@ export const signUpFormSchema = z.object({
         message: "Password must be less than 32 characters long"
     }).regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
     .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
-    .regex(/[0-9]/, { message: "Password must contain at least one number" })
-    .regex(/[@$!%*?&#]/, { message: "Password must contain at least one special character (@, $, !, %, *, ?, &, #)" })
 })
 
 export const signInFormSchema = z.object({
@@ -44,6 +40,4 @@ export const signInFormSchema = z.object({
         message: "Password must be less than 32 characters long"
     }).regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
     .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
-    .regex(/[0-9]/, { message: "Password must contain at least one number" })
-    .regex(/[@$!%*?&#]/, { message: "Password must contain at least one special character (@, $, !, %, *, ?, &, #)" }),
 })

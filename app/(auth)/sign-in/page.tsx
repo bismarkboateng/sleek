@@ -14,19 +14,15 @@ import Loader from "@/components/shared/Loader"
 import { useAuthStore } from "@/store/Auth"
 import { useRouter } from "next/navigation"
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
-import { FaGoogle } from "react-icons/fa";
-import { FaFacebookF } from "react-icons/fa";
 import Link from "next/link"
+import { useEffect } from "react"
 
 
 
 export default function SignInPage() {
   const router = useRouter()
   const signIn = useAuthStore(state => state.signIn)
-  const loginState = useAuthStore(state => state.loginState)
-  const signInWithRedirect = useAuthStore(state => state.signInWithRedirect)
-  const isGoogleSigIn = useAuthStore(state => state.isGoogleSigIn)
-  
+  const loginState = useAuthStore(state => state.loginState)  
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: initialSignInFormValues,
@@ -39,20 +35,6 @@ export default function SignInPage() {
     }, 500)
   }
 
-  const handleSignInWithGoogle = () => {
-    // signInWithRedirect()
-
-    // router.push("/dashboard")
-    // if (isGoogleSigIn === "done") {
-    //   setTimeout(() => {
-    //   }, 500)
-    // }
-  }
-
-  const handleSignInWithFacebook = () => {
-
-  }
-
   return (
     <section className="w-[90%] lg:w-[70%] 2xl:w-[50%] mx-auto mt-5">
       <h1 className="text-green-400 text-xl text-center mb-5
@@ -63,30 +45,7 @@ export default function SignInPage() {
         2xl:text-lg">
           Sign in to your account.
         </p>
-      </section>
-
-      {/* Social Login */}
-      <section className="mt-5 flex flex-col md:flex-row gap-2">
-        <div onClick={handleSignInWithGoogle}
-         className="bg-[#007AFF] active:bg-[#007AFF] focus:bg-[#007AFF]
-         py-3 w-fuill border rounded-md flex items-center justify-center"
-        >
-          <FaGoogle fontSize={20} className="w-5 h-5 block text-white mr-5"/>
-          <span className="text-white text-sm font-medium">Sign in with Google</span>
-        </div>
-
-        <div onClick={handleSignInWithFacebook}
-         className="bg-blue-900 active:bg-blue-900 focus:bg-blue-900
-         py-3 w-full border rounded-md flex items-center justify-center"
-        >
-          <FaFacebookF fontSize={20} className="w-5 h-5 block text-white mr-5"/>
-          <span className="text-white text-sm font-medium">Sign in with Facebook</span>
-        </div>
-      </section>
-      {/* end social login */}
-
-      <p className="text-[#818891] text-xs mt-5 text-center">or sign in with</p>
-      
+      </section>      
       <section className="border w-full h-fit mt-5 rounded-md p-3">
        <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">

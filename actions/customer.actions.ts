@@ -17,7 +17,6 @@ export const createCustomer = async (customer: CreateCustomerParams) => {
         if (!response.ok) {
             handleError(response.statusText)
         }
-        console.log(response)
         return JSON.parse(JSON.stringify(response))
     } catch (error) {
         handleError(error)
