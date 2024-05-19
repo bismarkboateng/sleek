@@ -6,6 +6,8 @@ import {
 } from "firebase/auth"
 import { handleError } from "@/lib/utils"
 import { createCustomer } from "@/actions/customer.actions"
+import Cookies from "js-cookie"
+
 
 export const useAuthStore = create<AuthStore>()((set) => ({
   isLoggedIn: false,
@@ -47,6 +49,7 @@ export const useAuthStore = create<AuthStore>()((set) => ({
     set(state => ({...state, loginState: "loading"}))
     signInWithEmailAndPassword(auth, values.email, values.password)
     .then((userCredential) => {
+      Cookies.set("isLoggedIn", "true")
       set(state => ({...state, loginState: "done"}))
       const user = userCredential.user;
       set(state => ({...state, isLoggedIn: true, userId: user.uid}))
