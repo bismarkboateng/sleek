@@ -5,25 +5,30 @@ import { Form, FormControl,
   FormField, FormItem, FormLabel, FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { z } from "zod"
+import { boolean, z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { signUpFormSchema } from "@/lib/validator"
 import { initialValues } from "@/lib/utils"
-import Dropdown from "@/components/shared/Dropdown"
 import Loader from "@/components/shared/Loader"
 import { useAuthStore } from "@/store/Auth"
 import { useRouter } from "next/navigation"
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
+import { useState } from "react"
+import { 
+  createUserWithEmailAndPassword
+} from "firebase/auth"
+import { auth } from "@/lib/firebase"
+import { handleError } from "@/lib/utils"
+import { createCustomer } from "@/actions/customer.actions"
 
 
 
 
 export default function SignUpPage() {
   const router = useRouter()
-  const signUp = useAuthStore(state => state.signUp)
-  const signUpState = useAuthStore(state => state.signUpState)
-  const isPasswordDoNotMatch = useAuthStore(state => state.isPasswordDoNotMatch)
+  const [isPasswordMatch, setIsPasswordMatch] = useState<null | boolean>(null)
+  const [signUpState, setSignUpState] = useState("pending")
   
   const form = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
@@ -31,10 +36,36 @@ export default function SignUpPage() {
   })
 
   function onSubmit(values: z.infer<typeof signUpFormSchema>) {
-    signUp(values)
-    setTimeout(() => {
+    if (values.password !== values.confirmPassword) {
+      setIsPasswordMatch(false)
+      return
+    } else {
+      setIsPasswordMatch(true)
+    }
+
+    setSignUpState("loading")
+    createUserWithEmailAndPassword(auth, values.email, values.password)    
+    .then((userCredential) => {
+      const user = userCredential.user;
+      setSignUpState("done")
+
+      const customer = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phoneNumber: values.phoneNumber,
+        email: values.email,
+        userId: user.uid,
+      }
+      createCustomer(customer)
+      localStorage.setItem("user", JSON.stringify(customer))  
       router.push("/sign-in")
-    }, 300)
+
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      handleError(errorMessage)
+    });
+
   }
 
   return (
@@ -46,7 +77,7 @@ export default function SignUpPage() {
         </p>
       </section>
 
-      <section className="border w-full min-h-[70vh] mt-5 rounded-md p-3">
+      <section className="border w-full h-fit mt-5 rounded-md p-3">
        <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           {/* first name and last name */}
@@ -117,42 +148,6 @@ export default function SignUpPage() {
            )}/>
           </div>
 
-          {/* Country and account type */}
-          {/* <div className="flex flex-col md:flex-row md:gap-2">
-          <FormField
-           control={form.control}
-           name="country"
-           render={({ field }) => (
-            <FormItem className="mb-2 md:mb-0 md:w-[50%]">
-              <FormLabel className="text-[#5F6979]">Country</FormLabel>
-              <FormControl>
-                <Dropdown
-                 type="country"
-                 onSelectChange={field.onChange}
-                 value={field.value}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-           )}/>
-          <FormField
-           control={form.control}
-           name="accountType"
-           render={({ field }) => (
-            <FormItem className="md:w-[50%]">
-              <FormLabel className="text-[#5F6979]">Account Type</FormLabel>
-              <FormControl>
-                <Dropdown
-                 type="accountType"
-                 onSelectChange={field.onChange}
-                 value={field.value}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-           )}/>
-          </div> */}
-
           {/* password and confirm password */}
           <div className="flex flex-col md:flex-row md:gap-2">
           <FormField
@@ -186,7 +181,7 @@ export default function SignUpPage() {
             </FormItem>
            )}/>
           </div>
-         {isPasswordDoNotMatch
+         {isPasswordMatch
           ? <p className="text-red-400">Passwords do not match.</p>
           : null}
          <Button

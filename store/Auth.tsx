@@ -15,15 +15,7 @@ export const useAuthStore = create<AuthStore>()((set) => ({
   signUpState: "pending",
   loginState: "pending",
   isGoogleSigIn: "",
-  isPasswordDoNotMatch: null,
   signUp: (values) => {
-    if (values.password !== values.confirmPassword) {
-      set({ isPasswordDoNotMatch: true })
-      return
-    } else {
-      set({ isPasswordDoNotMatch: false })
-    }
-
     set(state => ({...state, signUpState: "loading"}))
     createUserWithEmailAndPassword(auth, values.email, values.password)    
     .then((userCredential) => {
