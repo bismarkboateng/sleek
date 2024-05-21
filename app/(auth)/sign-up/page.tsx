@@ -21,7 +21,7 @@ import {
 import { auth } from "@/lib/firebase"
 import { handleError } from "@/lib/utils"
 import { createCustomer } from "@/actions/customer.actions"
-
+import Link from "next/link"
 
 
 
@@ -35,37 +35,31 @@ export default function SignUpPage() {
     defaultValues: initialValues,
   })
 
-  function onSubmit(values: z.infer<typeof signUpFormSchema>) {
+  async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
     if (values.password !== values.confirmPassword) {
       setIsPasswordMatch(false)
       return
     } else {
       setIsPasswordMatch(true)
     }
-
-    setSignUpState("loading")
-    createUserWithEmailAndPassword(auth, values.email, values.password)    
-    .then((userCredential) => {
-      const user = userCredential.user;
+    
+    try {
+      setSignUpState("loading")
+      const { user: { uid }} = await createUserWithEmailAndPassword(auth, values.email, values.password)
+      console.log(uid)
       setSignUpState("done")
-
       const customer = {
         firstName: values.firstName,
         lastName: values.lastName,
         phoneNumber: values.phoneNumber,
         email: values.email,
-        userId: user.uid,
+        userId: uid,
       }
-      createCustomer(customer)
-      localStorage.setItem("user", JSON.stringify(customer))  
+      await createCustomer(customer)
       router.push("/sign-in")
-
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      handleError(errorMessage)
-    });
-
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

@@ -10,25 +10,28 @@ import { PiSignOut } from "react-icons/pi";
 import { useAuthStore } from "@/store/Auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { auth } from "@/lib/firebase"
+import { signOut } from "firebase/auth"
+import { handleError } from "@/lib/utils";
+import { deleteCookie } from "@/actions/auth.actions";
 
 
-export default function UserCard() {
-  const [userObj, setUserObj] = useState<null | CreateCustomerParams>()
-  const logOut = useAuthStore(state => state.logOut)
-  const userId = useAuthStore(state => state.userId)
+export default function UserCard() {  
+  const [user, setUser] = useState<CreateCustomerParams | null>(null)
   const router = useRouter()
 
-
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user")!)
-    setUserObj(user)
-  }, [userId])
+    // fetch user information from database
+  }, [])
 
-  const handleLogOut = () => {
-    logOut()
-    setTimeout(() => {
+  const handleLogOut = async () => {
+    try {
+      await signOut(auth)
+      deleteCookie()
       router.push("/sign-in")
-    }, 500)
+    } catch (error) {
+      handleError(error)
+    }
   }
 
   return (
@@ -41,7 +44,7 @@ export default function UserCard() {
        <DropdownMenu>
         <DropdownMenuTrigger className="outline-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0">
           <div className="flex items-center gap-2">
-           <p className="text-[#818891] font-medium">{userObj?.firstName}</p>
+           <p className="text-[#818891] font-medium">{user?.firstName}</p>
            <RiArrowDropDownLine fontSize={22} className="text-[#818891]" />
           </div>
         </DropdownMenuTrigger>

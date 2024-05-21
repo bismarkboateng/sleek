@@ -17,32 +17,43 @@ import Link from "next/link"
 import { useState } from "react"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "@/lib/firebase"
+import { checkCustomer } from "@/actions/customer.actions"
+import { setCookie } from "@/actions/auth.actions"
 
 
 
 export default function SignInPage() {
   const router = useRouter()
   const [signInState, setSignInState] = useState("pending")
+  const [haveAccount, setHaveAccount] = useState("")
   
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: initialSignInFormValues,
   })
 
-  function onSubmit(values: z.infer<typeof signInFormSchema>) {
-    setSignInState("loading")
-    signInWithEmailAndPassword(auth, values.email, values.password)
-    .then((userCredential) => {
-      setSignInState("done")
-      const user = userCredential.user;
-      console.log(user)
-      router.push("/dasbhoard")
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      handleError(errorMessage)
-    });
+  async function onSubmit(values: z.infer<typeof signInFormSchema>) {
+    try {
+      setSignInState("loading")
+      console.log(values.email)
+      const customer = await checkCustomer(values.email)
 
+      if (customer.message == "NEW_USER") {
+        setHaveAccount("This email is not registered. You need to create an account")
+        // wait momentarily for user to see the error message
+        setTimeout(() => {
+          router.push("/sign-up")
+        }, 1000)
+        return
+      }
+
+      const { user: { uid }} = await signInWithEmailAndPassword(auth, values.email, values.password)
+      setCookie(uid)
+      setSignInState("done")
+      router.push("/dashboard")
+    } catch (error) {
+      throw error
+    }
   }
 
 
@@ -127,6 +138,7 @@ export default function SignInPage() {
             : "Sign In"
           }
           </Button>
+          {haveAccount && <p className="text-red-600 text-center">{haveAccount}</p>}
         </form>
        </Form>
       </section>

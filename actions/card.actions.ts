@@ -2,14 +2,16 @@
 
 import { handleError } from "@/lib/utils"
 
+const BASE_URL = process.env.BASE_URL
+
 const endpoints = [
-    "http://localhost:3001/api/products/revenue",
-    "http://localhost:3001/api/orders/total",
-    "http://localhost:3001/api/products/total",
-    "http://localhost:3001/api/visitors",
+    `${BASE_URL}/api/products/revenue`,
+    `${BASE_URL}/api/orders/total`,
+    `${BASE_URL}/api/products/total`,
+    `${BASE_URL}/api/visitors`,
 ]
 
-const graphDataEndpont = "http://localhost:3001/api/card"
+const graphDataEndpont = `${BASE_URL}/api/card`
 
 export const getCardData = async () => {
  
