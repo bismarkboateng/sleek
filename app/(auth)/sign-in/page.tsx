@@ -9,31 +9,42 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { signInFormSchema } from "@/lib/validator"
-import { initialSignInFormValues } from "@/lib/utils"
+import { handleError, initialSignInFormValues } from "@/lib/utils"
 import Loader from "@/components/shared/Loader"
-import { useAuthStore } from "@/store/Auth"
 import { useRouter } from "next/navigation"
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import Link from "next/link"
-import { useEffect } from "react"
+import { useState } from "react"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth } from "@/lib/firebase"
 
 
 
 export default function SignInPage() {
   const router = useRouter()
-  const signIn = useAuthStore(state => state.signIn)
-  const loginState = useAuthStore(state => state.loginState)  
+  const [signInState, setSignInState] = useState("pending")
+  
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: initialSignInFormValues,
   })
 
   function onSubmit(values: z.infer<typeof signInFormSchema>) {
-    signIn(values)
-    setTimeout(() => {
-      router.push("/dashboard")
-    }, 500)
+    setSignInState("loading")
+    signInWithEmailAndPassword(auth, values.email, values.password)
+    .then((userCredential) => {
+      setSignInState("done")
+      const user = userCredential.user;
+      console.log(user)
+      router.push("/dasbhoard")
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      handleError(errorMessage)
+    });
+
   }
+
 
   return (
     <section className="w-[90%] lg:w-[70%] 2xl:w-[50%] mx-auto mt-5">
@@ -45,7 +56,8 @@ export default function SignInPage() {
         2xl:text-lg">
           Sign in to your account.
         </p>
-      </section>      
+      </section>
+
       <section className="border w-full h-fit mt-5 rounded-md p-3">
        <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -100,14 +112,14 @@ export default function SignInPage() {
          <Button
            type="submit"
            className={`
-           ${loginState === "done" ? "bg-green-400" : null }
+           ${signInState === "done" ? "bg-green-400" : null }
            w-full bg-[#007AFF] text-white active:bg-[#007AFF]
            md:w-[35%]`}
          >
           {
-            loginState === "loading"
+            signInState === "loading"
             ? <Loader loadingState={true} />
-            : loginState === "done"
+            : signInState === "done"
             ? <IoCheckmarkCircleSharp
                className="text-green-600"
                fontSize={23}

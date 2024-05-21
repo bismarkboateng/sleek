@@ -3,7 +3,7 @@ interface AuthStore {
     userId: string;
     signUpState: string;
     loginState: string;
-    isPasswordDoNotMatch: boolean | null;
+    isGoogleSigIn: string;
     signUp: (values: z.infer<typeof signUpFormSchema>) => void;
     signIn: (values: z.infer<typeof signInFormSchema>) => void;
     logOut: () => void;
