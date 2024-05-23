@@ -9,3 +9,7 @@ export const deleteCookie = () => {
 export const setCookie = (userId: string) => {
     cookies().set("userId", JSON.stringify(userId))
 }
+
+export const getCookie = () => {
+    return cookies().get("userId")
+}

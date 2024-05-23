@@ -13,15 +13,29 @@ import { useEffect, useState } from "react";
 import { auth } from "@/lib/firebase"
 import { signOut } from "firebase/auth"
 import { handleError } from "@/lib/utils";
-import { deleteCookie } from "@/actions/auth.actions";
+import { deleteCookie, getCookie } from "@/actions/auth.actions";
+
+const BASE_URL = process.env.BASE_URL
 
 
 export default function UserCard() {  
   const [user, setUser] = useState<CreateCustomerParams | null>(null)
   const router = useRouter()
-
+  
   useEffect(() => {
-    // fetch user information from database
+    // const userId = getCookie()
+    // console.log(`http://localhost:3002/api/customers/${userId}/get-a-customer`)
+
+    const getACustomer = async () => {
+      const response = await fetch(`http://localhost:3002/api/customers/SbR3bgWSNuWq5Y9UU6UzLefJM6j2/get-a-customer`)
+      if (!response.ok) {
+        handleError(response.statusText)
+      }
+      const data = await response.json()
+      setUser(data)
+    }
+
+    getACustomer()
   }, [])
 
   const handleLogOut = async () => {
