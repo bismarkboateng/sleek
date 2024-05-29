@@ -2,12 +2,21 @@ import Header from "@/components/shared/Header";
 import Search from "@/components/shared/Search";
 import Sidebar from "@/components/shared/Sidebar";
 import UserCard from "@/components/shared/UserCard";
+import { getCookie } from "@/actions/auth.actions";
 
 export default function DashboardLayout({
     children,
   }: Readonly<{
     children: React.ReactNode;
   }>) {
+
+    let userId: string | undefined
+    const getCookies = async () => {
+       userId = await getCookie()
+    }
+
+    getCookies()
+
     return (
       <section className="w-[90%] mx-auto md:w-full md:flex md:mt-0 mt-3">
         <section className="md:hidden flex items-end justify-end mb-1">
@@ -19,7 +28,7 @@ export default function DashboardLayout({
         <section className="md:flex-1 md:w-[70%] lg:w-[80%] p-3 xl:p-5 md:bg-[#F5F6FA]">
          <section className="md:flex flex-row items-center justify-between">
           <Search />
-          <UserCard />
+          <UserCard userId={userId && userId} />
          </section>
          {children}
         </section>

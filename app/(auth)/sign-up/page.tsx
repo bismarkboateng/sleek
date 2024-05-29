@@ -11,7 +11,6 @@ import { useForm } from "react-hook-form"
 import { signUpFormSchema } from "@/lib/validator"
 import { initialValues } from "@/lib/utils"
 import Loader from "@/components/shared/Loader"
-import { useAuthStore } from "@/store/Auth"
 import { useRouter } from "next/navigation"
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import { useState } from "react"
@@ -46,7 +45,6 @@ export default function SignUpPage() {
     try {
       setSignUpState("loading")
       const { user: { uid }} = await createUserWithEmailAndPassword(auth, values.email, values.password)
-      console.log(uid)
       setSignUpState("done")
       const customer = {
         firstName: values.firstName,

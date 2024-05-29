@@ -10,6 +10,7 @@ import { AreaChart } from "@mantine/charts"
 export default async function CardComponent() {
  const cardData = await getCardData()
 
+
  const transformedCardData = cardData?.map(item => {
     const key = Object.keys(item)[0];
     const value = item[key];

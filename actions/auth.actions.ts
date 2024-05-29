@@ -7,9 +7,11 @@ export const deleteCookie = () => {
 }
 
 export const setCookie = (userId: string) => {
-    cookies().set("userId", JSON.stringify(userId))
+    cookies().set("userId", `${userId}`)
 }
 
 export const getCookie = () => {
-    return cookies().get("userId")
+    const cookieStore = cookies()
+    const userId = cookieStore.get("userId")?.value
+    return userId
 }

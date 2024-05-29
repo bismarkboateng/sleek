@@ -7,36 +7,46 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { PiSignOut } from "react-icons/pi";
-import { useAuthStore } from "@/store/Auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { auth } from "@/lib/firebase"
 import { signOut } from "firebase/auth"
 import { handleError } from "@/lib/utils";
 import { deleteCookie, getCookie } from "@/actions/auth.actions";
+import axios from "axios"
 
 const BASE_URL = process.env.BASE_URL
 
 
-export default function UserCard() {  
+export default function UserCard({ userId }: { userId: string | undefined }) {  
   const [user, setUser] = useState<CreateCustomerParams | null>(null)
   const router = useRouter()
   
   useEffect(() => {
-    // const userId = getCookie()
-    // console.log(`http://localhost:3002/api/customers/${userId}/get-a-customer`)
+    // const getACustomer = async () => {
+    //   const response = await fetch(`http://localhost:3002/api/customers/${userId}/get-a-customer`)
+    //   if (!response.ok) {
+    //     handleError(response.statusText)
+    //   }
+    //   const data = await response.json()
+    //   setUser(data)
+    // }
 
     const getACustomer = async () => {
-      const response = await fetch(`http://localhost:3002/api/customers/SbR3bgWSNuWq5Y9UU6UzLefJM6j2/get-a-customer`)
-      if (!response.ok) {
-        handleError(response.statusText)
+      try {
+        const { data } = await axios.get(`http://localhost:3002/api/customers/${userId}/get-customer`)
+        if (!data) {
+          console.log("User not found")
+        }
+        setUser(data)
+      } catch (error) {
+        throw error
       }
-      const data = await response.json()
-      setUser(data)
     }
-
     getACustomer()
-  }, [])
+  }, [userId])
+
+  console.log(user && user)
 
   const handleLogOut = async () => {
     try {

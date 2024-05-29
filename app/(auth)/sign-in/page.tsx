@@ -35,7 +35,6 @@ export default function SignInPage() {
   async function onSubmit(values: z.infer<typeof signInFormSchema>) {
     try {
       setSignInState("loading")
-      console.log(values.email)
       const customer = await checkCustomer(values.email)
 
       if (customer.message == "NEW_USER") {
