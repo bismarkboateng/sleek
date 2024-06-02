@@ -1,37 +1,69 @@
 "use server"
 
 import { handleError } from "@/lib/utils"
+import axios from "axios"
 
 const BASE_URL = process.env.BASE_URL
 
-const endpoints = [
-    `${BASE_URL}/api/products/revenue`,
-    `${BASE_URL}/api/orders/total`,
-    `${BASE_URL}/api/products/total`,
-    `${BASE_URL}/api/visitors`,
-]
-
 const graphDataEndpont = `${BASE_URL}/api/card`
 
-export const getCardData = async () => {
- 
-    const fetchPromises = endpoints.map(async endpoint => {
-        return fetch(endpoint)
-         .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json()
-         })
-    })
-
+export const getTotalVisitors = async () => {
     try {
-        return Promise.all(fetchPromises)
-         .then(dataArray => {
-            return dataArray
-         })
+        const { data } = await axios.get(`${BASE_URL}/api/visitors`)
+        if (!data) {
+            handleError("No visitors data")
+        }
+        return data
     } catch (error) {
-        handleError(error)
+        throw error
+    }
+}
+
+export const getRevenueGraphData = async () => {
+    try {
+        const { data } = await axios.get(`${BASE_URL}/api/revenue-graph`)
+        if (!data) {
+            handleError("No Graph data")
+        }
+        return data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const getTotalProduct = async () => {
+    try {
+        const { data } = await axios.get(`${BASE_URL}/api/products/total`)
+        if (!data) {
+            handleError("No product data")
+        }
+        return data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const getTotalOrder = async () => {
+    try {
+        const { data } = await axios.get(`${BASE_URL}/api/orders/total`)
+        if (!data) {
+            handleError("No order data")
+        }
+        return data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const getRevenue = async () => {
+    try {
+        const { data } = await axios.get(`${BASE_URL}/api/products/revenue`)
+        if (!data) {
+            handleError("No revenue data")
+        }
+        return data
+    } catch (error) {
+        throw error
     }
 }
 
@@ -45,6 +77,30 @@ export const getCardGraphData = async () => {
 
         const data = await response.json()
         return data 
+    } catch (error) {
+        handleError(error)
+    }
+}
+
+export const getProductGraphData = async () => {
+    try {
+        const { data } = await axios.get(`${BASE_URL}/api/orders/status`)
+        if (!data) {
+            handleError("No Orders Status data")
+        }
+        return data
+    } catch (error) {
+        handleError(error)
+    }
+}
+
+export const getRecentOrders = async () => {
+    try {
+        const { data } = await axios.get(`${BASE_URL}/api/orders`)
+        if (!data) {
+            handleError("No Orders Status data")
+        }
+        return data
     } catch (error) {
         handleError(error)
     }

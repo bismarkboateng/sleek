@@ -18,21 +18,13 @@ import axios from "axios"
 const BASE_URL = process.env.BASE_URL
 
 
-export default function UserCard({ userId }: { userId: string | undefined }) {  
+export default function UserCard() {
   const [user, setUser] = useState<CreateCustomerParams | null>(null)
   const router = useRouter()
   
   useEffect(() => {
-    // const getACustomer = async () => {
-    //   const response = await fetch(`http://localhost:3002/api/customers/${userId}/get-a-customer`)
-    //   if (!response.ok) {
-    //     handleError(response.statusText)
-    //   }
-    //   const data = await response.json()
-    //   setUser(data)
-    // }
-
     const getACustomer = async () => {
+      const userId = JSON.parse(localStorage.getItem("userId")!)
       try {
         const { data } = await axios.get(`http://localhost:3002/api/customers/${userId}/get-customer`)
         if (!data) {
@@ -44,10 +36,7 @@ export default function UserCard({ userId }: { userId: string | undefined }) {
       }
     }
     getACustomer()
-  }, [userId])
-
-  console.log(user && user)
-
+  }, [])
   const handleLogOut = async () => {
     try {
       await signOut(auth)

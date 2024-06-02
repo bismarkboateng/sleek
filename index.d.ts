@@ -1,3 +1,5 @@
+import { StringifyOptions } from "querystring";
+
 interface AuthStore {
     isLoggedIn: boolean;
     userId: string;
@@ -15,4 +17,30 @@ interface CreateCustomerParams {
     phoneNumber: string;
     email: string;
     userId: string;
+}
+
+type RevenueGraphData = {
+    date: string;
+    Balenciaga: number;
+    Nike: number;
+}[]
+
+type ProductsType = {
+    _id: string;
+    name: string;
+    price: string;
+    stock: number;
+    description: string;
+    category: string;
+}
+
+interface RecentOrder {
+    customer: string;
+    orderDate: Date,
+    orderNo: string;
+    products: {
+        product: string;
+        quantity: number;
+    }[]
+    status: string;
 }

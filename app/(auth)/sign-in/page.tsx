@@ -48,6 +48,7 @@ export default function SignInPage() {
 
       const { user: { uid }} = await signInWithEmailAndPassword(auth, values.email, values.password)
       setCookie(uid)
+      localStorage.setItem("userId", JSON.stringify(uid))
       setSignInState("done")
       router.push("/dashboard")
     } catch (error) {
