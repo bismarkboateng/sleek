@@ -133,7 +133,7 @@ export default function CustomersPage() {
              </TableRow>
             </TableHeader>
             <TableBody>
-             {customers?.map(customer => (
+             {customers && customers.map(customer => (
              <TableRow key={customer.userId}>
               <TableCell className="font-medium">{customer.firstName} {customer.lastName}</TableCell>
               <TableCell className="font-medium">{customer.userId}</TableCell>
