@@ -1,15 +1,5 @@
 import { StringifyOptions } from "querystring";
 
-interface AuthStore {
-    isLoggedIn: boolean;
-    userId: string;
-    signUpState: string;
-    loginState: string;
-    isGoogleSigIn: string;
-    signUp: (values: z.infer<typeof signUpFormSchema>) => void;
-    signIn: (values: z.infer<typeof signInFormSchema>) => void;
-    logOut: () => void;
-}
 
 interface CreateCustomerParams {
     firstName: string;
@@ -42,5 +32,16 @@ interface RecentOrder {
         product: string;
         quantity: number;
     }[]
+    status: string;
+}
+
+interface Customer {
+    firstName: string;
+    lastName: string;
+    userId: string;
+    spent: string;
+    lastOrdered: Date;
+    email: string;
+    phoneNumber: string;
     status: string;
 }

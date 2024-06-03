@@ -2,7 +2,7 @@ import Link from "next/link";
 import axios from "axios"
 import { ProductsType } from "@/index";
 
-const BASE_URL = process.env.BASE_URL
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 export default async function TopProducts() {
   

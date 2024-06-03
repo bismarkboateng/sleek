@@ -2,8 +2,9 @@
 
 import { handleError } from "@/lib/utils"
 import { cookies } from "next/headers"
+import { CreateCustomerParams } from ".."
 
-const BASE_URL = process.env.BASE_URL
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 const CREATE_CUSTOMER_ENDPOINT = `${BASE_URL}/api/customers`
 const CHECK_CUSTOMER_ENDPOINT = `${BASE_URL}/api/customers`
 

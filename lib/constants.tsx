@@ -31,12 +31,6 @@ export const NavLinks = [
     key: "customers"
   },
   {
-    icon: <BiMessageRoundedDetail fontSize={20} />,
-    title: "Messages",
-    path: "/messages",
-    key: "messages",
-  },
-  {
     icon: <LuSettings fontSize={20} />,
     title: "Settings",
     path: "/settings",

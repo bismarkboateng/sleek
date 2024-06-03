@@ -12,10 +12,11 @@ import { useEffect, useState } from "react";
 import { auth } from "@/lib/firebase"
 import { signOut } from "firebase/auth"
 import { handleError } from "@/lib/utils";
-import { deleteCookie, getCookie } from "@/actions/auth.actions";
+import { deleteCookie, getCookie, setId } from "@/actions/auth.actions";
 import axios from "axios"
+import { CreateCustomerParams } from "@/index";
 
-const BASE_URL = process.env.BASE_URL
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 
 export default function UserCard() {
@@ -26,11 +27,12 @@ export default function UserCard() {
     const getACustomer = async () => {
       const userId = JSON.parse(localStorage.getItem("userId")!)
       try {
-        const { data } = await axios.get(`http://localhost:3002/api/customers/${userId}/get-customer`)
+        const { data } = await axios.get(`${BASE_URL}/api/customers/${userId}/get-customer`)
         if (!data) {
           console.log("User not found")
         }
         setUser(data)
+        setId(data._id)
       } catch (error) {
         throw error
       }

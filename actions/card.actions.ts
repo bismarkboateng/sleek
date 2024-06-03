@@ -3,7 +3,7 @@
 import { handleError } from "@/lib/utils"
 import axios from "axios"
 
-const BASE_URL = process.env.BASE_URL
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 const graphDataEndpont = `${BASE_URL}/api/card`
 
